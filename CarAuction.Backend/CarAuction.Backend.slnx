@@ -1,2 +1,25 @@
 <Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" />
+  </Folder>
+  <Folder Name="/src/modules/" />
+  <Folder Name="/src/modules/Auction/">
+    <Project Path="src/modules/Auction/Application/Application.csproj" />
+    <Project Path="src/modules/Auction/Domain/Domain.csproj" />
+    <Project Path="src/modules/Auction/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/modules/Auction/Tests/Tests.csproj" />
+  </Folder>
+  <Folder Name="/src/modules/Car/">
+    <Project Path="src/modules/Car/Application/Application.csproj" />
+    <Project Path="src/modules/Car/Domain/Domain.csproj" />
+    <Project Path="src/modules/Car/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/modules/Car/Tests/Tests.csproj" />
+  </Folder>
+  <Folder Name="/src/modules/Transaction/">
+    <Project Path="src/modules/Transaction/Application/Application.csproj" />
+    <Project Path="src/modules/Transaction/Domain/Domain.csproj" />
+    <Project Path="src/modules/Transaction/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/modules/Transaction/Tests/Tests.csproj" />
+  </Folder>
 </Solution>
