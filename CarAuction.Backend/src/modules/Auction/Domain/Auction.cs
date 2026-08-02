@@ -13,14 +13,14 @@ public class Auction : Entity, IAggregateRoot
 
     private Auction() { } // For EF Core
 
-    private Auction(Guid id, DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, AuctionStatus status, decimal currentPrice) : base(id)
+    private Auction(Guid id, DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, AuctionStatus status, decimal startingPrice) : base(id)
     {
         StartTime = startTime;
         EndTime = endTime;
         CarId = carId;
         SellerId = sellerId;
         Status = status;
-        CurrentPrice = StartingPrice = currentPrice; // CurrentPrice and StartingPrice should have the same value to start
+        StartingPrice = CurrentPrice = startingPrice; // CurrentPrice and StartingPrice should have the same value to start
     }
 
     // We don't let the user decide on the status of the Auction
