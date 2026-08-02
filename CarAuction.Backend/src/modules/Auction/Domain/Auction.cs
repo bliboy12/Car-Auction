@@ -1,23 +1,26 @@
 public class Auction : Entity, IAggregateRoot
 {
-    public Guid AuctionId { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
     public Guid CarId { get; private set; }
     public Guid SellerId { get; private set; }
     public AuctionStatus Status { get; private set; }
     public decimal CurrentPrice { get; private set; }
+    public decimal StartingPrice { get; private set; }
+
+    // We left this out here because loading the full bid history alongside Auction would be a performance problem in a hyped auction (most of the time, the last 10 seconds before close)
+    // public IEnumerable<Bid> Bids { get; private set; } = new List<Bid>();
 
     private Auction() { } // For EF Core
 
-    private Auction(Guid id, DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, AuctionStatus status, decimal currentPrice)
+    private Auction(Guid id, DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, AuctionStatus status, decimal currentPrice) : base(id)
     {
         StartTime = startTime;
         EndTime = endTime;
         CarId = carId;
         SellerId = sellerId;
         Status = status;
-        CurrentPrice = currentPrice;
+        CurrentPrice = StartingPrice = currentPrice; // CurrentPrice and StartingPrice should have the same value to start
     }
 
     // We don't let the user decide on the status of the Auction
@@ -45,29 +48,35 @@ public class Auction : Entity, IAggregateRoot
         StartTime = startTime;
         EndTime = endTime;
     }
-    public void UpdateStatus(AuctionStatus status)
+
+    public void Activate()
     {
-        if (Status == AuctionStatus.Sold || Status == AuctionStatus.Unsold)
-            throw new ArgumentException("Auction has finished, can no longer make changes to status!");
-        if (Status == AuctionStatus.Active && (DateTime.UtcNow >= StartTime && DateTime.UtcNow <= EndTime))
-            throw new ArgumentException("Auction is on going, can make no changes until its finished");
-        if (DateTime.UtcNow > StartTime && status == (Auction.Active || AuctionStatus.Sold || AuctionStatus.Unsold))
-            throw new ArgumentException("Auction Status can not be decided before the start time");
-
-        if (DateTime.UtcNow > EndTime && (Status && status) != (AuctionStatus.Sold || AuctionStatus.unsold))
-            throw new ArgumentException("Auction status must be decided upon, either Sold or Unsold");
-
-        Status = status;
+        if (Status != AuctionStatus.Scheduled)
+            throw new ArgumentException("Only a schedulded auction can be activated");
+        if (DateTime.UtcNow < StartTime)
+            throw new ArgumentException("Auction cannot be activated before start time");
+        Status = AuctionStatus.Active;
     }
 
-    public void UpdateCurrentPrice(decimal currentPrice)
+    public void Close()
     {
-        if (currentPrice < CurrentPrice)
-            throw new ArgumentException("Price must be larger then the current price");
+        if (Status != AuctionStatus.Active)
+            throw new ArgumentException("Only a active auction can be closed");
+        if (DateTime.UtcNow < EndTime)
+            throw new ArgumentException("Auction cannot be closed before end time");
 
-        if (Status == (AuctionStatus.Unsold || AuctionStatus.Sold))
-            throw new ArgumentException("Price can no longer be changed, auction came to an end");
+        Status = StartingPrice != CurrentPrice ? AuctionStatus.Sold : AuctionStatus.Unsold;
+    }
+    public Bid PlaceBid(Guid bidderId, decimal amount)
+    {
+        if (Status != AuctionStatus.Active)
+            throw new ArgumentException("Can't place a bid with an InActive Auction");
+        if (amount <= CurrentPrice)
+            throw new ArgumentException("Bid can't be smaller then current price");
 
-        CurrentPrice = currentPrice;
+        Bid newBid = Bid.CreateNewBid(bidderId, Id, amount);
+        CurrentPrice = amount;
+
+        return newBid;
     }
 }
