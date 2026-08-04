@@ -79,4 +79,5 @@ public class Auction : Entity, IAggregateRoot
 
         return newBid;
     }
+
 }
