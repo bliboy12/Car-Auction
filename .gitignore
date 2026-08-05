@@ -427,3 +427,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# For development or any other sensitve appsettings files 
+**/appsettings.*.json

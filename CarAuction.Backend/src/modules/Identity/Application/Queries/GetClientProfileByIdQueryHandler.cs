@@ -1,21 +1,27 @@
 public class GetClientProfileByIdQueryHandler
 {
     private IClientProfileRepository _clientRepo;
+    private IIdentityService _identityService;
 
-    public GetClientProfileByIdQueryHandler(IClientProfileRepository clientRepo)
+    public GetClientProfileByIdQueryHandler(IClientProfileRepository clientRepo, IIdentityService identityService)
     {
         _clientRepo = clientRepo;
+        _identityService = identityService;
     }
 
     public async Task<ClientProfileDto> Handle(GetClientProfileByIdQuery request)
     {
-        ClientProfile clientProfile = await _clientRepo.GetByIdAsync(request.Id);
+        ClientProfile? clientProfile = await _clientRepo.GetByIdAsync(request.Id);
 
-        if (String.IsNullOrWhiteSpace(clientProfile.FirstName))
-            throw new ArgumentException("Firstname can not be empty");
-        if (String.IsNullOrWhiteSpace(clientProfile.LastName))
-            throw new ArgumentException("Lastname can not be empty");
+        if (clientProfile is null)
+            throw new ArgumentException($"Client with ID: {request.Id} not found");
 
-        return new ClientProfileDto(clientProfile.Id, clientProfile.FirstName, clientProfile.LastName, clientProfile.BirthDate, clientProfile.Address);
+        var email = await _identityService.GetEmailByIdAsync(request.Id);
+
+        if (!email.Succeeded)
+            throw new InvalidOperationException($"Client profile {request.Id} exists but has no matching Identity user — data integrity issue.");
+
+
+        return new ClientProfileDto(clientProfile.Id, clientProfile.FirstName, clientProfile.LastName, clientProfile.BirthDate, clientProfile.Address, email.Value!);
     }
 }

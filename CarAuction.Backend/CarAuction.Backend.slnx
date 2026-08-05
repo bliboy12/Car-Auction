@@ -1,32 +1,35 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/Persistence/Persistence.csproj" />
+    <Project Path="src/CarAuction.Persistence/Persistence.csproj" />
+  </Folder>
+  <Folder Name="/src/API/">
+    <Project Path="src/API/CarAuction.API/CarAuction.API.csproj" />
   </Folder>
   <Folder Name="/src/BuildingBlocks/">
     <Project Path="src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" />
   </Folder>
   <Folder Name="/src/modules/" />
   <Folder Name="/src/modules/Auction/">
-    <Project Path="src/modules/Auction/Application/Application.csproj" />
+    <Project Path="src/modules/Auction/Application/Modules.Auction.Application.csproj" />
     <Project Path="src/modules/Auction/Domain/Modules.Auction.Domain.csproj" />
-    <Project Path="src/modules/Auction/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/modules/Auction/Infrastructure/Modules.Auction.Infrastructure.csproj" />
     <Project Path="src/modules/Auction/Tests/Tests.csproj" />
   </Folder>
   <Folder Name="/src/modules/Car/">
-    <Project Path="src/modules/Car/Application/Application.csproj" />
+    <Project Path="src/modules/Car/Application/Modules.Car.Application.csproj" />
     <Project Path="src/modules/Car/Domain/Modules.Car.Domain.csproj" />
-    <Project Path="src/modules/Car/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/modules/Car/Infrastructure/Modules.Car.Infrastructure.csproj" />
     <Project Path="src/modules/Car/Tests/Tests.csproj" />
   </Folder>
   <Folder Name="/src/modules/Identity/">
-    <Project Path="src/modules/Identity/Application/Application.csproj" />
+    <Project Path="src/modules/Identity/Application/Modules.Identity.Application.csproj" />
     <Project Path="src/modules/Identity/Domain/Modules.Identity.Domain.csproj" />
-    <Project Path="src/modules/Identity/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/modules/Identity/Infrastructure/Modules.Identity.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/src/modules/Transaction/">
     <Project Path="src/modules/Transaction/Application/Application.csproj" />
     <Project Path="src/modules/Transaction/Domain/Modules.Transaction.Domain.csproj" />
-    <Project Path="src/modules/Transaction/Infrastructure/Infrastructure.csproj" />
+    <Project Path="src/modules/Transaction/Infrastructure/Modules.Transaction.Infrastructure.csproj" />
     <Project Path="src/modules/Transaction/Tests/Tests.csproj" />
   </Folder>
 </Solution>

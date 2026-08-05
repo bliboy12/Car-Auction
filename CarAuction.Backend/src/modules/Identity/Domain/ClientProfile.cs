@@ -5,6 +5,8 @@ public class ClientProfile : Entity, IAggregateRoot
     public DateTime BirthDate { get; private set; }
     public Address Address { get; private set; }
 
+    private ClientProfile() { } // For EF Core
+
     private ClientProfile(Guid id, string firstName, string lastName, DateTime birthDate, Address address) : base(id)
     {
         FirstName = firstName;

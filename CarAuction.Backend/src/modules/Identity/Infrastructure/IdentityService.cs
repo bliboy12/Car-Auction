@@ -40,4 +40,16 @@ public class IdentityService : IIdentityService
 
         return Result<Guid>.Success(Guid.Parse(user.Id));
     }
+
+    public async Task<Result<string>> GetEmailByIdAsync(Guid id)
+    {
+        IEnumerable<string> err = ["User not found"];
+        IdentityUser? user = await _userManager.FindByIdAsync(id.ToString());
+
+        if (user is null)
+            return Result<string>.Failure(err);
+
+        return Result<string>.Success(user.Email!);
+
+    }
 }

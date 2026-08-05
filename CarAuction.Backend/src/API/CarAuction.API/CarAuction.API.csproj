@@ -1,5 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
+    <ProjectReference Include="..\..\modules\Auction\Domain\Modules.Auction.Domain.csproj" />
+    <ProjectReference Include="..\..\modules\Auction\Application\Modules.Auction.Application.csproj" />
+    <ProjectReference Include="..\..\modules\Car\Application\Modules.Car.Application.csproj" />
+    <ProjectReference Include="..\..\modules\Identity\Application\Modules.Identity.Application.csproj" />
+    <ProjectReference Include="..\..\modules\Identity\Infrastructure\Modules.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\CarAuction.Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\modules\Auction\Infrastructure\Modules.Auction.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\modules\Car\Infrastructure\Modules.Car.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\modules\Transaction\Infrastructure\Modules.Transaction.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
