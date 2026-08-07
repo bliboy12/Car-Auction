@@ -4,10 +4,10 @@ public class RegisterClientCommand
     public string Password { get; } = string.Empty;
     public string FirstName { get; } = string.Empty;
     public string LastName { get; } = string.Empty;
-    public DateTime BirthDate { get; }
+    public DateOnly BirthDate { get; }
     public Address Address { get; }
 
-    public RegisterClientCommand(string email, string password, string firstName, string lastName, DateTime birthDate, Address address)
+    public RegisterClientCommand(string email, string password, string firstName, string lastName, DateOnly birthDate, Address address)
     {
         Email = email;
         Password = password;

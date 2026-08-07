@@ -23,6 +23,8 @@ builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IClientProfileRepository, ClientProfileRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
+
 
 // 4. Command/Query Handlers
 builder.Services.AddScoped<CreateAuctionCommandHandler>();
@@ -31,9 +33,11 @@ builder.Services.AddScoped<GetAuctionByIdQueryHandler>();
 builder.Services.AddScoped<GetBidsByAuctionIdQueryHandler>();
 builder.Services.AddScoped<CreateCarCommandHandler>();
 builder.Services.AddScoped<GetCarByIdQueryHandler>();
-builder.Services.AddScoped<RegisterClientCommand>();
 builder.Services.AddScoped<RegisterClientCommandHandler>();
 builder.Services.AddScoped<GetClientProfileByIdQueryHandler>();
+builder.Services.AddScoped<LoginCommandHandler>();
+
+
 
 // 5. Standard ASP.NET Core plumbing
 builder.Services.AddControllers();
@@ -64,7 +68,6 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
-builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 
 var app = builder.Build();
 

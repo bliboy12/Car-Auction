@@ -2,12 +2,12 @@ public class ClientProfile : Entity, IAggregateRoot
 {
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
-    public DateTime BirthDate { get; private set; }
-    public Address Address { get; private set; }
+    public DateOnly BirthDate { get; private set; }
+    public Address Address { get; private set; } = null!;
 
     private ClientProfile() { } // For EF Core
 
-    private ClientProfile(Guid id, string firstName, string lastName, DateTime birthDate, Address address) : base(id)
+    private ClientProfile(Guid id, string firstName, string lastName, DateOnly birthDate, Address address) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -15,7 +15,7 @@ public class ClientProfile : Entity, IAggregateRoot
         Address = address;
     }
 
-    public static ClientProfile CreateClientProfile(Guid id, string firstName, string lastName, DateTime birthDate, Address address)
+    public static ClientProfile CreateClientProfile(Guid id, string firstName, string lastName, DateOnly birthDate, Address address)
     {
         int minimumAge = 18;
 
@@ -25,7 +25,7 @@ public class ClientProfile : Entity, IAggregateRoot
             throw new ArgumentException("Lastname can not be empty");
 
         int age = DateTime.UtcNow.Year - birthDate.Year;
-        if (birthDate.Date > DateTime.UtcNow.AddYears(-age))
+        if (birthDate > DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-age)))
             age--;
 
         if (age < minimumAge)
