@@ -1,4 +1,6 @@
-public class GetClientProfileByIdQueryHandler
+using MediatR;
+
+public class GetClientProfileByIdQueryHandler : IRequestHandler<GetClientProfileByIdQuery, ClientProfileDto>
 {
     private IClientProfileRepository _clientRepo;
     private IIdentityService _identityService;
@@ -9,7 +11,7 @@ public class GetClientProfileByIdQueryHandler
         _identityService = identityService;
     }
 
-    public async Task<ClientProfileDto> Handle(GetClientProfileByIdQuery request)
+    public async Task<ClientProfileDto> Handle(GetClientProfileByIdQuery request, CancellationToken cancellationToken)
     {
         ClientProfile? clientProfile = await _clientRepo.GetByIdAsync(request.Id);
 

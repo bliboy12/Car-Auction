@@ -1,4 +1,6 @@
-public class GetCarByIdQueryHandler
+using MediatR;
+
+public class GetCarByIdQueryHandler : IRequestHandler<GetCarByIdQuery, CarDto>
 {
     private ICarRepository _carRepo;
 
@@ -7,7 +9,7 @@ public class GetCarByIdQueryHandler
         _carRepo = carRepo;
     }
 
-    public async Task<CarDto> Handle(GetCarByIdQuery request)
+    public async Task<CarDto> Handle(GetCarByIdQuery request, CancellationToken cancellationToken)
     {
         Car? car = await _carRepo.GetByIdAsync(request.Id);
 

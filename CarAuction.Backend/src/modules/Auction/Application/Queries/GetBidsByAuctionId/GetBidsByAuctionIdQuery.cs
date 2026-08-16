@@ -1,4 +1,6 @@
-public class GetBidsByAuctionIdQuery
+using MediatR;
+
+public class GetBidsByAuctionIdQuery : IRequest<IEnumerable<BidDto>>
 {
     public Guid AuctionId { get; private set; }
 

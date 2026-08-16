@@ -1,4 +1,6 @@
-public class PlaceBidCommandHandler
+using MediatR;
+
+public class PlaceBidCommandHandler : IRequestHandler<PlaceBidCommand, Guid>
 {
     private IAuctionRepository _auctionRepo;
     private IBidRepository _bidRepo;
@@ -11,7 +13,7 @@ public class PlaceBidCommandHandler
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Guid> Handle(PlaceBidCommand request)
+    public async Task<Guid> Handle(PlaceBidCommand request, CancellationToken cancellationToken)
     {
         // First fetch the auction and see if it exists
         Auction? auction = await _auctionRepo.GetByIdAsync(request.AuctionId);

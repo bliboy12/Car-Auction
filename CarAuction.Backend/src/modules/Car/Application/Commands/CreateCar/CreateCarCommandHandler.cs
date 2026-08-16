@@ -1,4 +1,6 @@
-public class CreateCarCommandHandler
+using MediatR;
+
+public class CreateCarCommandHandler : IRequestHandler<CreateCarCommand, Guid>
 {
     private ICarRepository _repo;
     private IUnitOfWork _unitOfWork;
@@ -9,7 +11,7 @@ public class CreateCarCommandHandler
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Guid> Handle(CreateCarCommand request)
+    public async Task<Guid> Handle(CreateCarCommand request, CancellationToken cancellationToken)
     {
         Car car = Car.CreateCar(request.Brand, request.Model, request.Trim, request.Year, request.Kilometers, request.HasDamage, request.Description, request.Color, request.Fuel, request.SellerId);
 

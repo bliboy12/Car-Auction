@@ -1,4 +1,6 @@
-public class CreateAuctionCommand
+using MediatR;
+
+public class CreateAuctionCommand : IRequest<Guid>
 {
     public DateTime StartTime { get; }
     public DateTime EndTime { get; }

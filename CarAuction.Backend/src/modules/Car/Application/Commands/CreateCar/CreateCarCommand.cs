@@ -1,4 +1,6 @@
-public class CreateCarCommand
+using MediatR;
+
+public class CreateCarCommand : IRequest<Guid>
 {
     public string Brand { get; } = string.Empty;
     public string Model { get; } = string.Empty;

@@ -44,6 +44,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();
 
+// 6. MediatR - pick up every handler in the associated assembly
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+    typeof(CreateAuctionCommand).Assembly,      // Modules.Auction.Application (covers Auction + Bid)
+    typeof(CreateCarCommand).Assembly,          // Modules.Car.Application
+    typeof(LoginCommand).Assembly,              // Modules.Identity.Application (covers Login, Register, GetClientProfileById)
+    typeof(CreateTransactionCommand).Assembly   // Modules.Transaction.Application, once it exists
+));
+
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
 

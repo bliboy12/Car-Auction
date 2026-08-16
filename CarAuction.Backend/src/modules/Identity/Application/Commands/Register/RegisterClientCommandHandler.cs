@@ -1,4 +1,6 @@
-public class RegisterClientCommandHandler
+using MediatR;
+
+public class RegisterClientCommandHandler : IRequestHandler<RegisterClientCommand, LoginResult>
 {
     private readonly IIdentityService _identityService;
     private readonly ITokenGenerator _tokenGenerator;
@@ -12,7 +14,7 @@ public class RegisterClientCommandHandler
         _clientRepo = clientRepo;
     }
 
-    public async Task<LoginResult> Handle(RegisterClientCommand request)
+    public async Task<LoginResult> Handle(RegisterClientCommand request, CancellationToken cancellationToken)
     {
         var identityResult = await _identityService.CreateUserAsync(request.Email, request.Password);
 

@@ -1,4 +1,6 @@
-public class GetAuctionByIdQuery
+using MediatR;
+
+public class GetAuctionByIdQuery : IRequest<AuctionDto>
 {
     public Guid Id { get; private set; }
 

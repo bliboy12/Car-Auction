@@ -1,4 +1,6 @@
-public class RegisterClientCommand
+using MediatR;
+
+public class RegisterClientCommand : IRequest<LoginResult>
 {
     public string Email { get; } = string.Empty;
     public string Password { get; } = string.Empty;

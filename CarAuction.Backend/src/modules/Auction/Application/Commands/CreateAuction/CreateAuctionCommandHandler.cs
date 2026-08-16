@@ -1,4 +1,6 @@
-public class CreateAuctionCommandHandler
+using MediatR;
+
+public class CreateAuctionCommandHandler : IRequestHandler<CreateAuctionCommand, Guid>
 {
     private IAuctionRepository _repo;
     private IUnitOfWork _unitOfWork;
@@ -9,7 +11,7 @@ public class CreateAuctionCommandHandler
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Guid> Handle(CreateAuctionCommand request)
+    public async Task<Guid> Handle(CreateAuctionCommand request, CancellationToken cancellationToken)
     {
         Auction auction = Auction.CreateAuction(request.StartTime, request.EndTime, request.CarId, request.SellerId, request.StartingPrice);
 

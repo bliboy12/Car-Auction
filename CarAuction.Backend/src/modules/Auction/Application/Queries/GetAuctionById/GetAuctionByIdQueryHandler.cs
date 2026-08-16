@@ -1,4 +1,6 @@
-public class GetAuctionByIdQueryHandler
+using MediatR;
+
+public class GetAuctionByIdQueryHandler : IRequestHandler<GetAuctionByIdQuery, AuctionDto>
 {
     private IAuctionRepository _repo;
 
@@ -7,7 +9,7 @@ public class GetAuctionByIdQueryHandler
         _repo = repo;
     }
 
-    public async Task<AuctionDto> Handle(GetAuctionByIdQuery request)
+    public async Task<AuctionDto> Handle(GetAuctionByIdQuery request, CancellationToken cancellationToken)
     {
         Auction? auction = await _repo.GetByIdAsync(request.Id);
 

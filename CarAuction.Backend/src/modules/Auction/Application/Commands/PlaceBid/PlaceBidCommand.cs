@@ -1,4 +1,6 @@
-public class PlaceBidCommand
+using MediatR;
+
+public class PlaceBidCommand : IRequest<Guid>
 {
     public Guid AuctionId { get; private set; }
     public Guid BidderId { get; private set; }

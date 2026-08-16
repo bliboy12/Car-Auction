@@ -1,4 +1,6 @@
-public class GetBidsByAuctionIdQueryHandler
+using MediatR;
+
+public class GetBidsByAuctionIdQueryHandler : IRequestHandler<GetBidsByAuctionIdQuery, IEnumerable<BidDto>>
 {
     private IAuctionRepository _auctionRepo;
     private IBidRepository _bidRepo;
@@ -9,7 +11,7 @@ public class GetBidsByAuctionIdQueryHandler
         _bidRepo = bidRepo;
     }
 
-    public async Task<IEnumerable<BidDto>> Handle(GetBidsByAuctionIdQuery request)
+    public async Task<IEnumerable<BidDto>> Handle(GetBidsByAuctionIdQuery request, CancellationToken cancellationToken)
     {
         // instead of loading the full object just to check if it exists, created instead a separate method for that check
         // Auction? auction = await _auctionRepo.GetByIdAsync(request.AuctionId);

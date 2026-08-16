@@ -1,4 +1,6 @@
-public class LoginCommandHandler
+using MediatR;
+
+public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
 {
     private readonly IIdentityService _identityService;
     private readonly ITokenGenerator _tokenGenerator;
@@ -8,7 +10,7 @@ public class LoginCommandHandler
         _tokenGenerator = tokenGenerator;
     }
 
-    public async Task<LoginResult> Handle(LoginCommand request)
+    public async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var result = await _identityService.ValidateCredentialsAsync(request.Email, request.Password);
         if (!result.Succeeded)
