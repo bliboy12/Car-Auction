@@ -2,20 +2,27 @@ using MediatR;
 
 public class CreateAuctionCommandHandler : IRequestHandler<CreateAuctionCommand, Guid>
 {
-    private IAuctionRepository _repo;
+    private readonly IAuctionRepository _auctionRepo;
+    private readonly ICarRepository _carRepo;
     private IUnitOfWork _unitOfWork;
 
-    public CreateAuctionCommandHandler(IAuctionRepository repo, IUnitOfWork unitOfWork)
+    public CreateAuctionCommandHandler(IAuctionRepository repo, ICarRepository carRepo, IUnitOfWork unitOfWork)
     {
-        _repo = repo;
+        _auctionRepo = repo;
+        _carRepo = carRepo;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<Guid> Handle(CreateAuctionCommand request, CancellationToken cancellationToken)
     {
+        Car? car = await _carRepo.GetByIdAsync(request.CarId);
+
+        if (car is null)
+            throw new ArgumentException($"Car with ID: {request.CarId} Not Found");
+
         Auction auction = Auction.CreateAuction(request.StartTime, request.EndTime, request.CarId, request.SellerId, request.StartingPrice);
 
-        await _repo.AddAsync(auction);
+        await _auctionRepo.AddAsync(auction);
         await _unitOfWork.SaveChangesAsync();
 
         return auction.Id;

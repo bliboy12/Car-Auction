@@ -4,6 +4,8 @@ using CarAuction.Persistence;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MediatR;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +53,16 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     typeof(LoginCommand).Assembly,              // Modules.Identity.Application (covers Login, Register, GetClientProfileById)
     typeof(CreateTransactionCommand).Assembly   // Modules.Transaction.Application, once it exists
 ));
+// 7. Validators
+builder.Services.AddValidatorsFromAssemblies(new[]
+{
+    typeof(CreateAuctionCommand).Assembly,
+    typeof(CreateCarCommand).Assembly,
+    typeof(LoginCommand).Assembly
+    // one per module Application assembly, same list as your MediatR registration
+});
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);

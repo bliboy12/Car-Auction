@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,17 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/auctions")]
 public class AuctionController : ControllerBase
 {
-    private CreateAuctionCommandHandler _createCommandHandler;
-    private PlaceBidCommandHandler _placeBidCommandHandler;
-    private GetAuctionByIdQueryHandler _getAuctionByIdQueryHandler;
-    private GetBidsByAuctionIdQueryHandler _getBidsByAuctionIdQueryHandler;
-    public AuctionController(CreateAuctionCommandHandler createAuctionCommandHandler, PlaceBidCommandHandler placeBidCommandHandler, GetAuctionByIdQueryHandler getAuctionByIdQueryHandler, GetBidsByAuctionIdQueryHandler getBidsByAuctionIdQueryHandler)
-    {
-        _createCommandHandler = createAuctionCommandHandler;
-        _placeBidCommandHandler = placeBidCommandHandler;
-        _getAuctionByIdQueryHandler = getAuctionByIdQueryHandler;
-        _getBidsByAuctionIdQueryHandler = getBidsByAuctionIdQueryHandler;
-    }
+    private readonly IMediator _mediator;
+    public AuctionController(IMediator mediator) => _mediator = mediator;
 
     [HttpPost]
     [Authorize]
@@ -25,14 +17,14 @@ public class AuctionController : ControllerBase
         Guid sellerId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
         var command = new CreateAuctionCommand(request.StartTime, request.EndTime, request.CarId, sellerId, request.StartingPrice);
-        Guid auctionId = await _createCommandHandler.Handle(command);
+        Guid auctionId = await _mediator.Send(command);
 
         return CreatedAtAction(nameof(GetAuctionById), new { id = auctionId }, new { id = auctionId });
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAuctionById([FromRoute] Guid id)
     {
-        AuctionDto dto = await _getAuctionByIdQueryHandler.Handle(new GetAuctionByIdQuery(id));
+        AuctionDto dto = await _mediator.Send(new GetAuctionByIdQuery(id));
         return Ok(dto);
     }
 
@@ -43,14 +35,14 @@ public class AuctionController : ControllerBase
         Guid bidderId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
         var command = new PlaceBidCommand(id, bidderId, request.Amount);
-        Guid bidId = await _placeBidCommandHandler.Handle(command);
+        Guid bidId = await _mediator.Send(command);
 
         return CreatedAtAction(nameof(GetBidsByAuctionId), new { id }, new { id = bidId });
     }
     [HttpGet("{id}/bids")]
     public async Task<IActionResult> GetBidsByAuctionId([FromRoute] Guid id)
     {
-        IEnumerable<BidDto> dtos = await _getBidsByAuctionIdQueryHandler.Handle(new GetBidsByAuctionIdQuery(id));
+        IEnumerable<BidDto> dtos = await _mediator.Send(new GetBidsByAuctionIdQuery(id));
 
         return Ok(dtos);
     }

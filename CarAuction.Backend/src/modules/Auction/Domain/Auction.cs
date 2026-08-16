@@ -69,10 +69,16 @@ public class Auction : Entity, IAggregateRoot
     }
     public Bid PlaceBid(Guid bidderId, decimal amount)
     {
+        int minimumBid = 1;
+
         if (Status != AuctionStatus.Active)
             throw new ArgumentException("Can't place a bid with an InActive Auction");
         if (amount <= CurrentPrice)
             throw new ArgumentException("Bid can't be smaller then current price");
+        if (amount - CurrentPrice < minimumBid)
+            throw new ArgumentException($"Bid must be at least €{minimumBid}");
+        if (bidderId == Guid.Empty)
+            throw new ArgumentException("Bidder must be specified");
 
         Bid newBid = Bid.CreateNewBid(bidderId, Id, amount);
         CurrentPrice = amount;

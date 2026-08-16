@@ -14,19 +14,19 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
         var command = new RegisterClientCommand(request.Email, request.Password, request.FirstName, request.LastName, request.BirthDate, request.Address);
-        LoginResult result = await _registerHandler.Handle(command);
+        LoginResult result = await _registerHandler.Handle(command, cancellationToken);
 
         return Ok(result);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
     {
         var command = new LoginCommand(request.Email, request.Password);
-        LoginResult result = await _loginHandler.Handle(command);
+        LoginResult result = await _loginHandler.Handle(command, cancellationToken);
 
         return Ok(result);
     }

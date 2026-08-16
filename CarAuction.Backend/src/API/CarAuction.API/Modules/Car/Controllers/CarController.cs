@@ -16,19 +16,19 @@ public class CarController : ControllerBase
     }
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> CreateCar([FromBody] CarRequest request)
+    public async Task<IActionResult> CreateCar([FromBody] CarRequest request, CancellationToken cancellationToken)
     {
         Guid sellerId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         var command = new CreateCarCommand(request.Brand, request.Model, request.Trim, request.Year, request.Kilometers, request.HasDamage, request.Description, request.Color, request.Fuel, sellerId);
 
-        Guid carId = await _createCarCommand.Handle(command);
+        Guid carId = await _createCarCommand.Handle(command, cancellationToken);
         return CreatedAtAction(nameof(GetCarById), new { id = carId }, new { id = carId });
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCarById([FromRoute] Guid id)
+    public async Task<IActionResult> GetCarById([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        CarDto dto = await _getCarCommand.Handle(new GetCarByIdQuery(id));
+        CarDto dto = await _getCarCommand.Handle(new GetCarByIdQuery(id), cancellationToken);
         return Ok(dto);
     }
 
