@@ -19,6 +19,8 @@ public class CreateAuctionCommandHandler : IRequestHandler<CreateAuctionCommand,
 
         if (car is null)
             throw new ArgumentException($"Car with ID: {request.CarId} Not Found");
+        if (car.SellerId != request.SellerId)
+            throw new ArgumentException("Can only list cars you own");
 
         Auction auction = Auction.CreateAuction(request.StartTime, request.EndTime, request.CarId, request.SellerId, request.StartingPrice);
 
