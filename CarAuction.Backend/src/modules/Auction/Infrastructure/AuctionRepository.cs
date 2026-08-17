@@ -19,6 +19,16 @@ public class AuctionRepository : IAuctionRepository
         return await _context.Auctions.AnyAsync(a => a.Id == auctionId);
     }
 
+    public Task<IReadOnlyList<Auction>> GetAuctionsToActivateAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IReadOnlyList<Auction>> GetAuctionsToCloseAsync()
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Auction?> GetByIdAsync(Guid auctionId)
     {
         return await _context.Auctions.FirstOrDefaultAsync(a => a.Id == auctionId);
