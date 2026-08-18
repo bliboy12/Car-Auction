@@ -5,8 +5,8 @@
   <Folder Name="/src/API/">
     <Project Path="src/API/CarAuction.API/CarAuction.API.csproj" />
   </Folder>
-  <Folder Name="/src/BuildingBlocks/">
-    <Project Path="src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" />
+  <Folder Name="/src/BuildingBlockso/">
+    <Project Path="src/BuildingBlocks/BuildingBlocks.csproj" />
   </Folder>
   <Folder Name="/src/modules/" />
   <Folder Name="/src/modules/Auction/">

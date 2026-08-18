@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\BuildingBlocks.csproj" />
     <ProjectReference Include="..\..\modules\Auction\Domain\Modules.Auction.Domain.csproj" />
     <ProjectReference Include="..\..\modules\Auction\Application\Modules.Auction.Application.csproj" />
     <ProjectReference Include="..\..\modules\Car\Application\Modules.Car.Application.csproj" />

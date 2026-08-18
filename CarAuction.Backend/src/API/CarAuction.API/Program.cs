@@ -62,6 +62,9 @@ builder.Services.AddValidatorsFromAssemblies(new[]
     // one per module Application assembly, same list as your MediatR registration
 });
 
+// 8. Background service to switch Auction Status
+builder.Services.AddHostedService<AuctionLifecycleService>();
+
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");

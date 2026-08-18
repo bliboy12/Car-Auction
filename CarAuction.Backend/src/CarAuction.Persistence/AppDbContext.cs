@@ -22,4 +22,11 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
+
+    // every DateTime your C# code ever sees from the database is explicitly tagged Kind = Utc
+    // removing the ambiguity at its source, once, for your entire codebase, rather than trusting every future query to handle it correctly on its own.
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<DateTime>().HaveConversion<UtcDateTimeConverter>();
+    }
 }

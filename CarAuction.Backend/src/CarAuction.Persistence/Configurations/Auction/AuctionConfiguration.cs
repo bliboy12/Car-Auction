@@ -12,8 +12,13 @@ public class AuctionConfiguration : IEntityTypeConfiguration<AuctionEntity>
 
         builder.HasKey(a => a.Id);
 
-        builder.Property(a => a.StartTime).IsRequired();
-        builder.Property(a => a.EndTime).IsRequired();
+        builder.Property(a => a.StartTime)
+            .HasColumnType("timestamp without time zone")
+            .IsRequired();
+
+        builder.Property(a => a.EndTime)
+            .HasColumnType("timestamp without time zone")
+            .IsRequired();
 
         builder.Property(a => a.CurrentPrice)
             .HasColumnType("decimal(18,2)")
