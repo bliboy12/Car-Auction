@@ -100,6 +100,8 @@ var app = builder.Build();
 //     app.UseSwaggerUI();
 // }
 
+// custom exception handling middleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

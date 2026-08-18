@@ -14,7 +14,7 @@ public class GetCarByIdQueryHandler : IRequestHandler<GetCarByIdQuery, CarDto>
         Car? car = await _carRepo.GetByIdAsync(request.Id);
 
         if (car is null)
-            throw new ArgumentException("Car not found");
+            throw new NotFoundException("Car not found");
 
         CarDto carDto = new CarDto(car.Id, car.Brand, car.Model, car.Trim, car.Year, car.Kilometers, car.HasDamage, car.Description, car.Color, car.Fuel, car.SellerId);
 

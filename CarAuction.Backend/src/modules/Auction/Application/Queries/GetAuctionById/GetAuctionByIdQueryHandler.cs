@@ -14,7 +14,7 @@ public class GetAuctionByIdQueryHandler : IRequestHandler<GetAuctionByIdQuery, A
         Auction? auction = await _repo.GetByIdAsync(request.Id);
 
         if (auction is null)
-            throw new ArgumentException("Auction not found");
+            throw new NotFoundException("Auction not found");
 
         return new AuctionDto(auction.Id, auction.StartTime, auction.EndTime, auction.CarId, auction.SellerId, auction.Status, auction.CurrentPrice);
     }

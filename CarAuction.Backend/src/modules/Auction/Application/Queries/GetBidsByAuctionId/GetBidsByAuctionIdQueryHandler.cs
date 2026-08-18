@@ -19,7 +19,7 @@ public class GetBidsByAuctionIdQueryHandler : IRequestHandler<GetBidsByAuctionId
         bool auctionExists = await _auctionRepo.ExistsAsync(request.AuctionId);
 
         if (!auctionExists)
-            throw new ArgumentException("Auction not found");
+            throw new NotFoundException("Auction not found");
 
         IEnumerable<Bid> bids = await _bidRepo.GetByAuctionIdAsync(request.AuctionId);
         IEnumerable<BidDto> bidDtos = bids.Select(bid => new BidDto(bid.Id, bid.AuctionId, bid.BidderId, bid.Price, bid.Time));

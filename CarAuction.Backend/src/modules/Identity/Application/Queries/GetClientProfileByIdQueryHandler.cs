@@ -16,7 +16,7 @@ public class GetClientProfileByIdQueryHandler : IRequestHandler<GetClientProfile
         ClientProfile? clientProfile = await _clientRepo.GetByIdAsync(request.Id);
 
         if (clientProfile is null)
-            throw new ArgumentException($"Client with ID: {request.Id} not found");
+            throw new NotFoundException($"Client with ID: {request.Id} not found");
 
         var email = await _identityService.GetEmailByIdAsync(request.Id);
 
