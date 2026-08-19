@@ -23,11 +23,12 @@ public class AuctionRepository : IAuctionRepository
     {
         // Value converters only apply to mapped entity properties, not ad-hoc query parameters
         // DateTime.UtcNow must be re-tagged Unspecified here to match the timestamp-without-timezone column.
-        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified); var result = await _context.Auctions.Where(a => a.Status == AuctionStatus.Scheduled && now >= a.StartTime).ToListAsync();
+        var now = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+        var result = await _context.Auctions.Where(a => a.Status == AuctionStatus.Scheduled && now >= a.StartTime).ToListAsync();
 
-        var test = await _context.Auctions.Where(a => a.Status == AuctionStatus.Scheduled).ToListAsync();
-        var time1 = test[0].StartTime;
-        var timeNow = DateTime.Now >= time1;
+        // var test = await _context.Auctions.Where(a => a.Status == AuctionStatus.Scheduled).ToListAsync();
+        // var time1 = test[0].StartTime;
+        // var timeNow = DateTime.Now >= time1;
 
         return result;
     }

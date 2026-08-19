@@ -6,11 +6,13 @@ public class AuctionLifecycleService : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<AuctionLifecycleService> _logger;
+    private readonly IAuctionNotificationService _notificationService;
 
-    public AuctionLifecycleService(IServiceScopeFactory scopeFactory, ILogger<AuctionLifecycleService> logger)
+    public AuctionLifecycleService(IServiceScopeFactory scopeFactory, ILogger<AuctionLifecycleService> logger, IAuctionNotificationService notificationService)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
+        _notificationService = notificationService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -39,6 +41,16 @@ public class AuctionLifecycleService : BackgroundService
 
                 if (toActivate.Any() || toClose.Any())
                     await unitOfWork.SaveChangesAsync();
+
+                foreach (var auction in toActivate)
+                    await _notificationService.NotifyAuctionActivatedAsync(auction.Id);
+
+                foreach (var auction in toClose)
+                {
+                    var notification = new AuctionClosedNotification(auction.Id, auction.CurrentPrice, auction.Status == AuctionStatus.Sold);
+                    await _notificationService.NotifyAuctionClosedAsync(notification);
+                }
+
             }
             catch (Exception ex)
             {

@@ -19,7 +19,9 @@ public class BidConfiguration : IEntityTypeConfiguration<BidEntity>
             .HasColumnType("decimal(18,2)")
             .IsRequired();
 
-        builder.Property(b => b.Time).IsRequired();
+        builder.Property(b => b.Time)
+            .HasColumnType("timestamp without time zone")
+            .IsRequired();
 
         builder.HasIndex(b => b.AuctionId);
     }

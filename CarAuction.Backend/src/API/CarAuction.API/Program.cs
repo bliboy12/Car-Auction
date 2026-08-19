@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MediatR;
 using FluentValidation;
+using CarAuction.Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,7 +66,12 @@ builder.Services.AddValidatorsFromAssemblies(new[]
 // 8. Background service to switch Auction Status
 builder.Services.AddHostedService<AuctionLifecycleService>();
 
+// 9. Validation Behavior
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+// 10. SignalR
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<IAuctionNotificationService, AuctionNotificationService>();
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
@@ -102,8 +108,10 @@ var app = builder.Build();
 
 // custom exception handling middleware
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.MapHub<AuctionHub>("/hubs/auction");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseStaticFiles(); // to be deleted
 
 app.Run();
