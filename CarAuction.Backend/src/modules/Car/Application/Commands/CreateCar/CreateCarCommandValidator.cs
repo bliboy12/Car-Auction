@@ -1,6 +1,6 @@
 using FluentValidation;
 
-public class CreateCarCommandValidator : AbstractValidator<CreateCarCommand>
+public sealed class CreateCarCommandValidator : AbstractValidator<CreateCarCommand>
 {
     public CreateCarCommandValidator()
     {

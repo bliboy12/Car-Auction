@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-public class AuctionLifecycleService : BackgroundService
+public sealed class AuctionLifecycleService : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<AuctionLifecycleService> _logger;
@@ -23,6 +23,7 @@ public class AuctionLifecycleService : BackgroundService
             {
                 using var scope = _scopeFactory.CreateScope();
                 var auctionRepo = scope.ServiceProvider.GetRequiredService<IAuctionRepository>();
+                var transactionRepo = scope.ServiceProvider.GetRequiredService<ITransactionRepository>();
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
                 var toActivate = await auctionRepo.GetAuctionsToActivateAsync();
@@ -37,11 +38,18 @@ public class AuctionLifecycleService : BackgroundService
                 {
                     auction.Close();
                     _logger.LogInformation("Closed auction {AuctionId} as {Status}", auction.Id, auction.Status);
+
+                    if (auction.Status == AuctionStatus.Sold)
+                    {
+                        var transaction = Transaction.CreateNewTransaction(auction.WinningBid!.Value);
+                        await transactionRepo.AddAsync(transaction);
+                    }
                 }
 
                 if (toActivate.Any() || toClose.Any())
                     await unitOfWork.SaveChangesAsync();
 
+                // We only send notification after changes have saved successfully and not before
                 foreach (var auction in toActivate)
                     await _notificationService.NotifyAuctionActivatedAsync(auction.Id);
 

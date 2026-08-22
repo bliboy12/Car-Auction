@@ -10,6 +10,15 @@ public class AuctionController : ControllerBase
     private readonly IMediator _mediator;
     public AuctionController(IMediator mediator) => _mediator = mediator;
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllAuctionsAsync()
+    {
+        var command = new GetAllAuctionsQuery();
+        IEnumerable<AuctionDto> auctions = await _mediator.Send(command);
+
+        return Ok(auctions);
+    }
+
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> CreateAuction([FromBody] CreateAuctionRequest request)

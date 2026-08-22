@@ -1,6 +1,6 @@
 using FluentValidation;
 
-public class RegisterClientCommandValidator : AbstractValidator<RegisterClientCommand>
+public sealed class RegisterClientCommandValidator : AbstractValidator<RegisterClientCommand>
 {
     public RegisterClientCommandValidator()
     {

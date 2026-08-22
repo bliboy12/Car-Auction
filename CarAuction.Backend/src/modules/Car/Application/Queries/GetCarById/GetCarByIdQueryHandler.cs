@@ -1,6 +1,6 @@
 using MediatR;
 
-public class GetCarByIdQueryHandler : IRequestHandler<GetCarByIdQuery, CarDto>
+public sealed class GetCarByIdQueryHandler : IRequestHandler<GetCarByIdQuery, CarDto>
 {
     private ICarRepository _carRepo;
 

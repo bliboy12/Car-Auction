@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
-public class TokenGenerator : ITokenGenerator
+public sealed class TokenGenerator : ITokenGenerator
 {
     private readonly IConfiguration _configuration;
 

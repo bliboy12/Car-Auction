@@ -1,6 +1,6 @@
 using FluentValidation;
 
-public class LoginCommandValidator : AbstractValidator<LoginCommand>
+public sealed class LoginCommandValidator : AbstractValidator<LoginCommand>
 {
     public LoginCommandValidator()
     {

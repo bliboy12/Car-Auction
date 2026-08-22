@@ -1,7 +1,7 @@
 using CarAuction.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-public class CarRepository : ICarRepository
+public sealed class CarRepository : ICarRepository
 {
     private readonly AppDbContext _context;
 

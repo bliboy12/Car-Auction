@@ -1,6 +1,6 @@
 using MediatR;
 
-public class GetBidsByAuctionIdQueryHandler : IRequestHandler<GetBidsByAuctionIdQuery, IEnumerable<BidDto>>
+public sealed class GetBidsByAuctionIdQueryHandler : IRequestHandler<GetBidsByAuctionIdQuery, IEnumerable<BidDto>>
 {
     private IAuctionRepository _auctionRepo;
     private IBidRepository _bidRepo;

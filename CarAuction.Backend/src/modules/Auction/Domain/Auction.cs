@@ -4,6 +4,7 @@ public class Auction : Entity, IAggregateRoot
     public DateTime EndTime { get; private set; }
     public Guid CarId { get; private set; }
     public Guid SellerId { get; private set; }
+    public Guid? WinningBid { get; private set; }
     public AuctionStatus Status { get; private set; }
     public decimal CurrentPrice { get; private set; }
     public decimal StartingPrice { get; private set; }
@@ -13,7 +14,7 @@ public class Auction : Entity, IAggregateRoot
 
     private Auction() { } // For EF Core
 
-    private Auction(Guid id, DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, AuctionStatus status, decimal startingPrice) : base(id)
+    private Auction(Guid id, DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, AuctionStatus status, decimal startingPrice, Guid? winningBid) : base(id)
     {
         StartTime = startTime;
         EndTime = endTime;
@@ -21,21 +22,22 @@ public class Auction : Entity, IAggregateRoot
         SellerId = sellerId;
         Status = status;
         StartingPrice = CurrentPrice = startingPrice; // CurrentPrice and StartingPrice should have the same value to start
+        WinningBid = winningBid;
     }
 
     // We don't let the user decide on the status of the Auction
     // An Auction must be created with the status scheduled and user is only able to change Sold/Unsold (or I'm still thinking through this)
-    public static Auction CreateAuction(DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, decimal currentPrice)
+    public static Auction CreateAuction(DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, decimal startingPrice)
     {
         if (startTime >= endTime)
             throw new ArgumentException("Start Time can not be later then End Time");
         if (startTime < DateTime.UtcNow)
             throw new ArgumentException("Start Time can not be in the past");
-        if (currentPrice <= 0)
-            throw new ArgumentException("Current price can not be lower then or equal to zero");
+        if (startingPrice <= 0)
+            throw new ArgumentException("Starting price can not be lower then or equal to zero");
 
 
-        return new Auction(Guid.NewGuid(), startTime, endTime, carId, sellerId, AuctionStatus.Scheduled, currentPrice);
+        return new Auction(Guid.NewGuid(), startTime, endTime, carId, sellerId, AuctionStatus.Scheduled, startingPrice, null);
     }
 
     public void UpdateStartEndTimes(DateTime startTime, DateTime endTime)
@@ -82,6 +84,8 @@ public class Auction : Entity, IAggregateRoot
 
         Bid newBid = Bid.CreateNewBid(bidderId, Id, amount);
         CurrentPrice = amount;
+
+        WinningBid = newBid.Id; // tracking who the current winning bidder is
 
         return newBid;
     }

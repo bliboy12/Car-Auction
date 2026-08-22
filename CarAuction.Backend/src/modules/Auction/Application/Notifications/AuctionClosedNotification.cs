@@ -1,4 +1,4 @@
-public class AuctionClosedNotification
+public sealed record AuctionClosedNotification
 {
     public Guid AuctionId { get; }
     public decimal FinalPrice { get; }

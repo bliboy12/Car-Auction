@@ -1,5 +1,5 @@
 using FluentValidation;
-public class CreateAuctionCommandValidator : AbstractValidator<CreateAuctionCommand>
+public sealed class CreateAuctionCommandValidator : AbstractValidator<CreateAuctionCommand>
 {
     public CreateAuctionCommandValidator()
     {

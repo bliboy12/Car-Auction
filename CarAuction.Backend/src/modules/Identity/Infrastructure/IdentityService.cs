@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-public class IdentityService : IIdentityService
+public sealed class IdentityService : IIdentityService
 {
     private UserManager<IdentityUser> _userManager;
     public IdentityService(UserManager<IdentityUser> userManager)

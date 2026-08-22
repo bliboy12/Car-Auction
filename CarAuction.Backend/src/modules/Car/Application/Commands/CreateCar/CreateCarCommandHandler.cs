@@ -1,6 +1,6 @@
 using MediatR;
 
-public class CreateCarCommandHandler : IRequestHandler<CreateCarCommand, Guid>
+public sealed class CreateCarCommandHandler : IRequestHandler<CreateCarCommand, Guid>
 {
     private ICarRepository _repo;
     private IUnitOfWork _unitOfWork;

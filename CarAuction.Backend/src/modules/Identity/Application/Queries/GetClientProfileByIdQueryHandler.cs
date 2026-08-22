@@ -1,6 +1,6 @@
 using MediatR;
 
-public class GetClientProfileByIdQueryHandler : IRequestHandler<GetClientProfileByIdQuery, ClientProfileDto>
+public sealed class GetClientProfileByIdQueryHandler : IRequestHandler<GetClientProfileByIdQuery, ClientProfileDto>
 {
     private IClientProfileRepository _clientRepo;
     private IIdentityService _identityService;

@@ -1,6 +1,6 @@
 using MediatR;
 
-public class GetAuctionByIdQueryHandler : IRequestHandler<GetAuctionByIdQuery, AuctionDto>
+public sealed class GetAuctionByIdQueryHandler : IRequestHandler<GetAuctionByIdQuery, AuctionDto>
 {
     private IAuctionRepository _repo;
 
@@ -16,6 +16,6 @@ public class GetAuctionByIdQueryHandler : IRequestHandler<GetAuctionByIdQuery, A
         if (auction is null)
             throw new NotFoundException("Auction not found");
 
-        return new AuctionDto(auction.Id, auction.StartTime, auction.EndTime, auction.CarId, auction.SellerId, auction.Status, auction.CurrentPrice);
+        return new AuctionDto(auction.Id, auction.StartTime, auction.EndTime, auction.CarId, auction.SellerId, auction.Status, auction.CurrentPrice, auction.StartingPrice);
     }
 }

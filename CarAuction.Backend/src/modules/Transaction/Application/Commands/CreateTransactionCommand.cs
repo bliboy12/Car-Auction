@@ -1,7 +1,3 @@
-public class CreateTransactionCommand
-{
-    public Guid WinningBidId { get; private set; }
-    public PaymentStatus Status { get; private set; }
-    public string? PaymentReference { get; private set; }
+using MediatR;
 
-}
+public sealed record CreateTransactionCommand(Guid WinningBidId, PaymentStatus Status, string? PaymentReference) : IRequest<Guid>;

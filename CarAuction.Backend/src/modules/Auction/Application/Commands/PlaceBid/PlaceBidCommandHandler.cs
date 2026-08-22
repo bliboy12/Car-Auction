@@ -1,6 +1,6 @@
 using MediatR;
 
-public class PlaceBidCommandHandler : IRequestHandler<PlaceBidCommand, Guid>
+public sealed class PlaceBidCommandHandler : IRequestHandler<PlaceBidCommand, Guid>
 {
     private IAuctionRepository _auctionRepo;
     private IBidRepository _bidRepo;

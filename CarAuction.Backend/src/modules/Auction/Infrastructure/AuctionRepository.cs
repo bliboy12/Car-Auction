@@ -19,6 +19,11 @@ public class AuctionRepository : IAuctionRepository
         return await _context.Auctions.AnyAsync(a => a.Id == auctionId);
     }
 
+    public async Task<IEnumerable<Auction>> GetAllAuctionsAsync()
+    {
+        return await _context.Auctions.ToListAsync();
+    }
+
     public async Task<IReadOnlyList<Auction>> GetAuctionsToActivateAsync()
     {
         // Value converters only apply to mapped entity properties, not ad-hoc query parameters

@@ -1,6 +1,6 @@
 using FluentValidation;
 
-public class GetClientProfileByIdQueryValidator : AbstractValidator<GetClientProfileByIdQuery>
+public sealed class GetClientProfileByIdQueryValidator : AbstractValidator<GetClientProfileByIdQuery>
 {
     public GetClientProfileByIdQueryValidator()
     {

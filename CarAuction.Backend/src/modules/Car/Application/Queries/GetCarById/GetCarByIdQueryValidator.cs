@@ -1,7 +1,7 @@
 using FluentValidation;
 
 // This class isn't a must but for consistency and learning purpose I have created it aswel 
-public class GetCarByIdQueryValidator : AbstractValidator<GetCarByIdQuery>
+public sealed class GetCarByIdQueryValidator : AbstractValidator<GetCarByIdQuery>
 {
     public GetCarByIdQueryValidator()
     {

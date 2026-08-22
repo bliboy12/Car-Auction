@@ -1,4 +1,4 @@
-public class LoginResult
+public sealed record LoginResult
 {
     public string Token { get; } = string.Empty;
     public DateTime ExpireTime { get; }

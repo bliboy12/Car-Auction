@@ -1,4 +1,4 @@
-public class BidPlacedNotification
+public sealed record BidPlacedNotification
 {
     public Guid AuctionId { get; }
     public Guid BidId { get; }

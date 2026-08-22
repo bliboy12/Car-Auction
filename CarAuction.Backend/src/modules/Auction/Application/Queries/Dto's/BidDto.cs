@@ -1,0 +1,1 @@
+public sealed record BidDto(Guid id, Guid auctionId, Guid bidderId, decimal price, DateTime time);

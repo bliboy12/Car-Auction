@@ -1,6 +1,6 @@
 using MediatR;
 
-public class RegisterClientCommandHandler : IRequestHandler<RegisterClientCommand, LoginResult>
+public sealed class RegisterClientCommandHandler : IRequestHandler<RegisterClientCommand, LoginResult>
 {
     private readonly IIdentityService _identityService;
     private readonly ITokenGenerator _tokenGenerator;

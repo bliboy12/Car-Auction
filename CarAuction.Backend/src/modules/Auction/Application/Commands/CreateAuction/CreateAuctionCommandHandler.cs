@@ -1,6 +1,6 @@
 using MediatR;
 
-public class CreateAuctionCommandHandler : IRequestHandler<CreateAuctionCommand, Guid>
+public sealed class CreateAuctionCommandHandler : IRequestHandler<CreateAuctionCommand, Guid>
 {
     private readonly IAuctionRepository _auctionRepo;
     private readonly ICarRepository _carRepo;

@@ -1,7 +1,7 @@
 using CarAuction.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-public class ClientProfileRepository : IClientProfileRepository
+public sealed class ClientProfileRepository : IClientProfileRepository
 {
     private readonly AppDbContext _context;
 

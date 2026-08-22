@@ -1,6 +1,6 @@
 using FluentValidation;
 
-public class PlaceBidCommandValidator : AbstractValidator<PlaceBidCommand>
+public sealed class PlaceBidCommandValidator : AbstractValidator<PlaceBidCommand>
 {
     public PlaceBidCommandValidator()
     {
