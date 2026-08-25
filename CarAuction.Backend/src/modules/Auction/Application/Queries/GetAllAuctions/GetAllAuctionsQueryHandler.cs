@@ -11,6 +11,6 @@ public sealed class GetAllAuctionsQueryHandler : IRequestHandler<GetAllAuctionsQ
     public async Task<IEnumerable<AuctionDto>> Handle(GetAllAuctionsQuery request, CancellationToken cancellationToken)
     {
         var auctions = await _repo.GetAllAuctionsAsync();
-        return auctions.Select(a => new AuctionDto(a.Id, a.StartTime, a.EndTime, a.CarId, a.SellerId, a.Status, a.CurrentPrice, a.StartingPrice));
+        return auctions.Select(a => new AuctionDto(a.Id, a.StartTime, a.EndTime, a.CarId, a.SellerId, a.Status, a.CurrentPrice, a.StartingPrice, a.WinningBid));
     }
 }

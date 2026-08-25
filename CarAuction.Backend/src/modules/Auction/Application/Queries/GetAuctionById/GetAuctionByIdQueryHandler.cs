@@ -16,6 +16,6 @@ public sealed class GetAuctionByIdQueryHandler : IRequestHandler<GetAuctionByIdQ
         if (auction is null)
             throw new NotFoundException("Auction not found");
 
-        return new AuctionDto(auction.Id, auction.StartTime, auction.EndTime, auction.CarId, auction.SellerId, auction.Status, auction.CurrentPrice, auction.StartingPrice);
+        return new AuctionDto(auction.Id, auction.StartTime, auction.EndTime, auction.CarId, auction.SellerId, auction.Status, auction.CurrentPrice, auction.StartingPrice, auction.WinningBid);
     }
 }

@@ -1,1 +1,1 @@
-public sealed record AuctionDto(Guid id, DateTime startTime, DateTime endTime, Guid carId, Guid sellerId, AuctionStatus status, decimal currentPrice, decimal startingPrice);
+public sealed record AuctionDto(Guid Id, DateTime StartTime, DateTime EndTime, Guid CarId, Guid SellerId, AuctionStatus Status, decimal CurrentPrice, decimal StartingPrice, Guid? WinningBid);
